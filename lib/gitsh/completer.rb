@@ -51,7 +51,7 @@ module Gitsh
       end
 
       def paths
-        PathCompleter.new(input)
+        PathCompleter.new(input, readline.line_buffer)
       end
 
       class TextCompleter
@@ -96,14 +96,23 @@ module Gitsh
       end
 
       class PathCompleter < TextCompleter
+        def initialize(input, line_buffer)
+          super(input)
+          @line_buffer = line_buffer
+        end
+
         private
+
+        attr_reader :line_buffer
 
         def collection
           Dir["#{matchable_input}*"].map { |path| escape(path) }
         end
 
         def suffix(path)
-          if File.directory?(path)
+          if single_quoted?
+            ''
+          elsif File.directory?(path)
             '/'
           else
             ' '
@@ -119,7 +128,15 @@ module Gitsh
         end
 
         def escape(path)
-          path.gsub(' ', '\ ')
+          if single_quoted?
+            path
+          else
+            path.gsub(' ', '\ ')
+          end
+        end
+
+        def single_quoted?
+          line_buffer[0...-input.length].end_with?("'")
         end
       end
 
