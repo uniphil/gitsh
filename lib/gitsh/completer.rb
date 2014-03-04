@@ -136,7 +136,7 @@ module Gitsh
         end
 
         def quoted?
-          line_buffer[0...-input.length].end_with?('"', "'")
+          @_quoted ||= line_buffer[0...-input.length].end_with?('"', "'")
         end
       end
 
