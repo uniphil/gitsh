@@ -38,12 +38,15 @@ describe Gitsh::Completer do
   end
 
   it 'completes paths beginning with a ~ character' do
-    readline = stub('Readline', line_buffer: ':cd ')
-    env = stub('Environment', repo_heads: %w( master ))
-    internal_command = stub('InternalCommand')
-    completer = Gitsh::Completer.new(readline, env, internal_command)
+    with_a_temporary_home_directory do
+      write_file(File.expand_path('~/my_file.rb'), '# Ruby!')
+      readline = stub('Readline', line_buffer: ':cd ')
+      env = stub('Environment', repo_heads: %w( master ))
+      internal_command = stub('InternalCommand')
+      completer = Gitsh::Completer.new(readline, env, internal_command)
 
-    expect(completer.call('~/')).to include "#{first_regular_file('~')} "
+      expect(completer.call('~/')).to include '~/my_file.rb '
+    end
   end
 
   it 'completes paths containing .. and .' do
