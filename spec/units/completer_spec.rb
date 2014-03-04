@@ -69,6 +69,18 @@ describe Gitsh::Completer do
     end
   end
 
+  it 'completes double quoted paths' do
+    in_a_temporary_directory do
+      write_file('some text file.txt', "Some text\n")
+      readline = stub('Readline', line_buffer: 'add "som')
+      env = stub('Environment', repo_heads: %w( master ))
+      internal_command = stub('InternalCommand')
+      completer = Gitsh::Completer.new(readline, env, internal_command)
+
+      expect(completer.call('som')).to include 'some text file.txt'
+    end
+  end
+
   it 'completes heads starting with :' do
     readline = stub('Readline', line_buffer: 'push ')
     env = stub('Environment', repo_heads: %w( master hello-branch ))
