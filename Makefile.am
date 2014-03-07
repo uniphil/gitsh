@@ -1,6 +1,44 @@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = src man lib/gitsh vendor
 EXTRA_DIST = LICENSE README.md
+TESTS = spec/units/internal_command_spec.rb \
+				spec/integration/arguments_spec.rb \
+				spec/integration/cd_command_spec.rb \
+				spec/integration/chaining.rb \
+				spec/integration/coloring_spec.rb \
+				spec/integration/create_repository_spec.rb \
+				spec/integration/default_command_spec.rb \
+				spec/integration/error_handling_spec.rb \
+				spec/integration/escaping_spec.rb \
+				spec/integration/greeting_spec.rb \
+				spec/integration/persistent_history_spec.rb \
+				spec/integration/prompt_spec.rb \
+				spec/integration/shell_commands_spec.rb \
+				spec/integration/tab_completion_spec.rb \
+				spec/integration/variables_spec.rb \
+				spec/support/colors.rb \
+				spec/support/delegate_matcher.rb \
+				spec/support/fake_readline.rb \
+				spec/support/file_system.rb \
+				spec/support/gitsh_runner.rb \
+				spec/support/parser.rb \
+				spec/support/working_directory.rb \
+				spec/units/cli_spec.rb \
+				spec/units/completer_spec.rb \
+				spec/units/environment_spec.rb \
+				spec/units/git_command_spec.rb \
+				spec/units/git_repository_spec.rb \
+				spec/units/history_spec.rb \
+				spec/units/internal_command_spec.rb \
+				spec/units/interpreter_spec.rb \
+				spec/units/parser_spec.rb \
+				spec/units/prompter_spec.rb \
+				spec/units/readline_blank_filter_spec.rb \
+				spec/units/shell_command_spec.rb \
+				spec/units/transformer_spec.rb \
+				spec/units/tree_spec.rb
+TEST_EXTENSIONS = .rb
+RB_LOG_COMPILER = rspec
 
 .PHONY: release \
 	release_build release_push release_clean \
